@@ -1,0 +1,20 @@
+#cloud-config
+# autoinstall:
+version: 1
+  interactive-sections:
+    - network
+    - identity
+    - storage
+  packages:
+    - ubuntu-pro-client
+  snaps:
+    - name: lxd
+  late-commands:
+    - "cloud-init"
+    - "subiquity-late-command-hook"
+    - "echo 'Attaching Ubuntu Pro token...'"
+    - "pro attach XXXXXXXXXXX"
+    - "echo 'Enabling FIPS...'"
+    - "pro enable fips-updates --assume-yes"
+    - "echo 'Rebooting to apply FIPS changes...'"
+    - "reboot"
