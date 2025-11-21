@@ -1,0 +1,162 @@
+#cloud-config
+merge_how:
+ - name: list
+   settings: [append]
+ - name: dict
+   settings: [no_replace, recurse_list]
+ubuntu_pro:
+  token: XXXXXXXXXXXXXXXXXX
+  enable:
+    - esm-apps
+    - esm-infra
+    - fips-updates
+final_message: |
+  Completed installing in $uptime
+  Cloud-Init Version: $version
+  Install Completed @ $timestamp
+  Cloud-Init Datasource: $datasource
+  Installation Duration: $uptime
+manage_etc_hosts: false
+groups:
+  - craigbender
+users:
+  - name: craigbender
+    uid: 1000
+    homedir: /home/craigbender
+    gecos: default
+    groups: craigbender, adm, audio, cdrom, dialout, dip, floppy, kvm, libvirt, libvirt-qemu, lxd, netdev, plugdev, render, sudo, tty, video
+    primary_group: craigbender
+    lock_passwd: false
+    # How to create a salted password (requires whois package to be installed)
+    # mkpasswd --method=SHA-512 --rounds=4096 'PASSWORD'
+    # The password below is "ubuntu"
+    passwd: $6$rounds=4096$mjUiFwfO67aEFc2V$dp.gp2hNzi4Zp9uZ2DvWLyyxXpJaReaZzAazx7qaH3KyVq.Zk4juh9SytCYQy93AELAbnktBBLXXpKCsnYNP0.
+    sudo: ALL=(ALL) NOPASSWD:ALL
+    shell: /bin/bash
+    ssh_import_id: ['lp:craig-bender']
+    # Below keys were add during yaml generation
+ssh_authorized_keys:
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAID/MSGqxkB7dMdxiezgchPCbHg7HBSgCU4Rh2nHLhwlM "craigbender@cbpc:ssh-ed25519"
+  - ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBAC6o290sU6h9XNFLIafqoRKT8TCn5HL5FJgVr8QfTEWdLoHKpuwxtBcGf9yvR47H1jJU+kQTcqeV8/BZsRyRFY3WwHnXhE3XFhJXSNvJfEBTMtk6ZbH0+ATCUYO2DdTo0Ql5pcwfBXFgtjxJqbBHehw+xsksr+mTGF15N8tTPW4QblQfw== "craigbender@cbpc:ssh-ecdsa"
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDOOVYT1ufbXNPDGvQ0PAYsYqSogm39/0JoLhdk0SpU9Ep9I0Wpe4VTj9FMWjXNsv2DHBDM2G/LXGBlTco/P5oLftLykxirodn2wQAmF+aTQRvqDvbUY3M6rBV86W3F853g2mBnS/mz5Phwf19+mUq9fmlVr7SQuITYkGdvXJg8hEK65FmPVnT3VXVrBeI8zRvPH4DCIkJY+e49x7iyC1PthXWNePxiN8L0DOIhL5zP5kPkpTd/6dF4gjdEf4LwjeZQfC5E+oUdKa2Yb/JefW3wfHteMxrG0E/5oobP/d2Ry596oTJuixrXW83q7KtWR3U+fu4ybL3ilJsLkhOfgoAU7WorBj9ZiosnX4mOrcT5jvEKlX/AW0VNOabqRnL4xQGNf+WvE6ON3aWEXavVU1UADRDzS0rK2a5ANPECLzoj2n/R73pB3VOSOZ+6NFyuOvYoLjUpu04AencEdToVUOwqv9NvbVOxIKqJrfw4BSFuuEP+g8uD5wGtrCAZeArnBJU6IvEqxJpQIqCnLt6nrLlc+gGp2SZ313Pc9KSWTLpnZ67s7mksiHX/b8rAoXdbcXRmk3GqOMUFaVdL4VKgbdVi76s2b58CuRZoHZ0OO5NMGtjwlpsGsJloVskkC/kXofzNJeF6qd2l4VD9o+Que6+Cp2jI6cwqgProVxT3VdLlcQ== "craigbender@cbpc:ssh-rsa"
+  - ecdsa-sha2-nistp521 AAAAE2VjZHNhLXNoYTItbmlzdHA1MjEAAAAIbmlzdHA1MjEAAACFBADviK4QkET0s1TxcPH0ezmdLcAtlyvsM1kN5mYkupzoHuscB5cw6rU6MoHVylwzj41/U2zJYFGoWLOCahyg/dfpNQBqep0OdxcDm3aBnswD+Vac49zmOo56cNOJeluPIiHyIF3ys6k3NEGW9sBdNFMVFs4RX8SurFvPTqMSoQoSJ4PQ8Q== craigbender@canonical.com
+  - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDJF9CZEF5ZWFkiylHXZhX2DQ5lKpO3AWZl7M0/cA/In craigbender@canonical.com
+  - ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQCcHM9zZP5Ca00FKtNDLk+PXXKeHJjgzGhNoMxKGWUDxq46ei5J0Bwz5G0zya+H1KbDNowBO4Az0cXWV3Zyq+m3KRamQdGH6rmEH9M7v8+OMdD9biJhWVhEOXfB0tSyxTjoipRTkyLdGZRdZ+o0Af7OxNx21Eo84QDR2H+4cBLwFA8l7yFJrY8aR0dPsWMcMBEdTydH13LvMV/dII1J6Fppfi+eDOoy8HpnlAs3411QNgR1IQow3vqpynnkaH68oRi2Db0bOQC6EUe2mCRVqI5Ro4OgtS9JlZJZ8BxikkyxujapH9K3xZYl6HG4lq7WWYIme4uMM2xo8rLMwfWytyjNfWJfRmNsxtUGywBQdIipe2FE7F05nPClmb4U2B5rAJiNjTJNCnhiZMaaF1C8kVExf4ldarZMTBHfQAoDizHrn6m4VPpVKCMM4zuc177QxPPtHSDMpgt2KXegJfXaU3UW4xc0aH8yrCX+4QPe9yQQ464edGf5iLwonheUVXxf58v3yVCDS3b7CBKpgU0xOIcsx8IPYkWfHKlBwtpZR1JVV0LiW9ivXyJJgQLOUGVQ70FeVx+uLT+HuWLc4rVLmzHMBJhpS+cEMGBnOSu5IXYfK2n4v1MrQBMS13SA6NwxZ15mf5FKs0oxFFk3qERTQl9+FhzGjwHq9vojX0vXXyML8w== craigbender@canonical.com
+  - ssh-dss AAAAB3NzaC1kc3MAAACBALDQ3h02cUeIkPqG6oi33pfYRTH/k7Szaf50l/EHz8dS9ZBYyAyFnY5vqvcTyrrgfPxywSQSeKSWSvzI+Sz49b8TEfVHl3nRKp1yEYuTq7OJ+79kk9SkNQcI6f8tWh0hGfDiw3O7C/ZffC+N0ncahHkKDvsUsla5qjuGc9j+JhPRAAAAFQDs4NSEVSZ0EB3F+VdGEr6h0NOyLQAAAIBlOdG/2EymQmaUCqLbReeyA94wOw/Jfr/Zy4Y8x0Ee4m7f8r8FM9mF1xBm0BHDJOWn7BzLE6MUZPS6nt8eP70MT0SkvSi4xgxpl3kpggDmb7TBle/W/1SaVEg03ywLp+BnyDG4HlEyTguYEVVP1rcG+AsGNxinBFO51f/LAsSwiQAAAIBk2uzjqetziyWzND/vuW5QfeEYxkUKKSJR97Pz18WE1ogAldm6Ov9QrSEN5eE2/uGZ9eu/N+jp5HE+YFJivetKj+4EbRKn5JquylfeMPs3jAHkeRGKLBOZrYGNy6+dQ8G5UJ/Bw+MtfNqGXBjP7cB9IReiaSGZHj5HY7u95BCLfw== craigbender@canonical.com
+timezone: 'America/Los_Angeles'
+locale: 'en_US.UTF-8'
+ssh_pwauth: true
+apt:
+  conf: |
+    APT {
+      Get {
+        Assume-Yes "True";
+        Fix-Broken "True";
+        Auto-Remove true;
+        Purge true;
+      };
+      Acquire {
+        ForceIPv4 "True";
+        http::Proxy "";
+        https::Proxy "";
+        ftp::Proxy "";
+        # DIRECT: This is basically the apt version of no_proxy
+        ;
+      };
+    };
+  primary:
+    - arches: [amd64]
+      uri: http://us.archive.ubuntu.com/ubuntu
+  security:
+    - arches: [amd64]
+      uri: http://us.archive.ubuntu.com/ubuntu
+  sources_list: |
+    deb [arch=amd64] $PRIMARY $RELEASE main universe restricted multiverse
+    deb [arch=amd64] $PRIMARY $RELEASE-updates main universe restricted multiverse
+    deb [arch=amd64] $SECURITY $RELEASE-security main universe restricted multiverse
+    deb [arch=amd64] $PRIMARY $RELEASE-backports main universe restricted multiverse
+snap:
+  commands:
+    00: ['install', 'lxd', '--channel', 'latest/stable']
+package_update: true
+package_upgrade: true
+packages: [acl, attr, bsdmainutils, build-essential, byobu, ca-certificates, coreutils, curl, debconf-utils, devscripts, dhcpdump, dialog, dnsutils, dpkg-dev, ethtool, gawk, git, gnupg-agent, ipcalc, iperf3, jq, keyutils, kpartx, linux-image-extra-virtual-hwe-24.04-edge, linux-image-virtual-hwe-24.04-edge, locate, make, mtools, ncat, netcat-openbsd, nfs-common, nfs-kernel-server, nginx-full, nmap, nmap-common, openssh-server, openssl, ovmf, p7zip, p7zip-full, p7zip-rar, packer, pastebinit, pigz, plocate, postgresql, postgresql-client, postgresql-client-common, postgresql-common, prips, python3, python3-argcomplete, python3-pip, python3-prettytable, python3-wcwidth, python-is-python3, qemu-block-extra, qemu-system-x86, qemu-utils, sdparm, setserial, software-properties-common, sshuttle, ssl-cert, sysstat, tcpdump, uml-utilities, unzip, vim, wget, wget2, whois, wireguard, wireguard-tools, xmlstarlet, zfsutils-linux, zfs-zed]
+bootcmd:
+  - ['cloud-init-per', 'once', 'bc0', 'sh', '-c', 'echo "\e[0;1;38;2;255;255;255m╔════════════════════════╗\e[0m\n\e[0;1;38;2;255;255;255m║\e[0;1;38;2;255;255;255m\e[0;1;48;2;0;60;0m   Starting BOOTCMDs    \e[0;1;38;2;255;255;255m║\e[0m\n\e[0;1;38;2;255;255;255m╚════════════════════════╝\e[0m\n"']
+  - ['cloud-init-per', 'once', 'bc1', 'cloud-init', 'schema', '--system']
+  - ['cloud-init-per', 'once', 'bc2', 'set', '-x']
+  - ['cloud-init-per', 'once', 'bc3', 'export', 'DEBIAN_FRONTEND=noninteractive']
+  - ['cloud-init-per', 'once', 'bc4', 'sh', '-c', 'sed -r -i "s,//archive.ubuntu,//us.archive.ubuntu,g" /etc/apt/sources.list.d/ubuntu.sources']
+  - ['cloud-init-per', 'once', 'bc5', 'sh', '-c', 'sed -r -i "/127.0.1.1/d;/127.0.0.1/a $(ip -o -4 a show dev $(ip -o route show default|grep -m1 -oP "(?<=dev )[^\s]+")|grep -m1 -oP "(?<=inet )[^/]+") cbmini.craigbender.me cbmini" /etc/hosts']
+  - ['cloud-init-per', 'once', 'bc6', 'sh', '-c', 'echo "\e[0;1;38;2;255;255;255m╔════════════════════════╗\e[0m\n\e[0;1;38;2;255;255;255m║\e[0;1;38;2;255;255;255m\e[0;1;48;2;0;60;0m$(hostname -f)\e[0;1;38;2;255;255;255m║\e[0m\n\e[0;1;38;2;255;255;255m╚════════════════════════╝\e[0m\n"']
+  - ['cloud-init-per', 'once', 'bc7', 'sh', '-c', 'echo "W1Jlc29sdmVdCkROUz0xLjEuMS4xIDEuMC4wLjEKRmFsbGJhY2tETlM9OS45LjkuOSAxNDkuMTEyLjExMi4xMTIKRG9tYWlucz1jcmFpZ2JlbmRlci5tZQpETlNTRUM9YWxsb3ctZG93bmdyYWRlCkROU092ZXJUTFM9b3Bwb3J0dW5pc3RpYwpNdWx0aWNhc3RETlM9eWVzCkxMTU5SPXllcwpDYWNoZT1uby1uZWdhdGl2ZQpDYWNoZUZyb21Mb2NhbGhvc3Q9bm8KRE5TU3R1Ykxpc3RlbmVyPW5vCkROU1N0dWJMaXN0ZW5lckV4dHJhPQpSZWFkRXRjSG9zdHM9eWVzClJlc29sdmVVbmljYXN0U2luZ2xlTGFiZWw9bm8KU3RhbGVSZXRlbnRpb25TZWM9MAo="|base64 -d|tee 1>/dev/null /etc/systemd/resolved.conf']
+  - ['cloud-init-per', 'once', 'bc8', 'sh', '-c', 'rm -rf /etc/resolv.conf']
+  - ['cloud-init-per', 'once', 'bc9', 'sh', '-c', 'ln -sf /run/systemd/resolve/resolv.conf /etc/resolv.conf']
+  - ['cloud-init-per', 'once', 'bc10', 'sh', '-c', 'systemctl restart systemd-resolved.service']
+  - ['cloud-init-per', 'once', 'bc11','sh', '-c', '/usr/bin/apt-get update --option=Acquire::ForceIPv4=true']
+  - ['cloud-init-per', 'once', 'bc12','sh', '-c', '/usr/bin/apt-get install --auto-remove --purge -yf --option=Acquire::ForceIPv4=true']
+  - ['cloud-init-per', 'once', 'bc13', 'set', '+x']
+  - ['cloud-init-per', 'once', 'bc14', 'sh', '-c', 'echo "\e[0;1;38;2;255;255;255m╔════════════════════════╗\e[0m\n\e[0;1;38;2;255;255;255m║\e[0;1;38;2;255;255;255m\e[0;1;48;2;0;60;0m   Finished BOOTCMDs    \e[0;1;38;2;255;255;255m║\e[0m\n\e[0;1;38;2;255;255;255m╚════════════════════════╝\e[0m\n"']
+runcmd:
+  - set +x
+  - sh -c 'echo "\e[0;1;38;2;255;255;255m╔═══════════════════════╗\e[0m\n\e[0;1;38;2;255;255;255m║\e[0;1;38;2;255;255;255m\e[0;1;48;2;0;60;0m   Starting RUNCMDs    \e[0;1;38;2;255;255;255m║\e[0m\n\e[0;1;38;2;255;255;255m╚═══════════════════════╝\e[0m\n"';
+  - set -x
+  # Remove virsh bridge if it exists
+  - if [ -n "$(command -v virsh 2>/dev/null)" ];then virsh net-destroy default;fi
+  - if [ -n "$(command -v virsh 2>/dev/null)" ];then virsh net-undefine default;fi
+  # Set debconf/dpkg not to prompt/ask for information during runcmds
+  - export DEBIAN_FRONTEND=noninteractive
+  # Ensure multicast in enabled.
+  - printf "net.ipv4.icmp_echo_ignore_all=0\nnet.ipv4.icmp_echo_ignore_broadcasts=0\nnet.ipv6.icmp.echo_ignore_all=0\nnet.ipv6.icmp.echo_ignore_anycast=0\nnet.ipv6.icmp.echo_ignore_multicast=0\n"|tee 1>/dev/null /etc/sysctl.d/98-multicast.conf
+  - sysctl -p /etc/sysctl.d/98-multicast.conf
+  # Turn on IP forwarding for our bridges
+  - printf "net.ipv4.ip_forward=1\nnet.ipv6.conf.all.forwarding=1\n"|tee 1>/dev/null /etc/sysctl.d/99-ip-forwarding.conf
+  - sysctl -p /etc/sysctl.d/99-ip-forwarding.conf
+  # Remove vim format option for adding a comment on every O/o
+  - if [ ! -f /home/$(id -un 1000)/.vimrc ];then install -o$(id -un 1000) -g$(id -gn 1000) -m0600 /dev/null /home/$(id -un 1000)/.vimrc;fi
+  - if [ -f /home/$(id -un 1000)/.vimrc ];then echo 'au BufEnter * set fo-=c fo-=r fo-=o'|tee 1>/dev/null /home/$(id -un 1000)/.vimrc;fi
+  - if [ ! -f /etc/vim/vimrc.local ];then mkdir -p /etc/vim;install -o0 -g0 -m0644 /dev/null /etc/vim/vimrc.local;fi
+  - if [ -f /etc/vim/vimrc.local ];then echo 'au BufEnter * set fo-=c fo-=r fo-=o' > /etc/vim/vimrc.local;fi
+  # Get IP/CIDR
+  - export DEFAULT_CIDR=$(ip -o -4 a show dev $(ip -o route show default|grep -m1 -oP '(?<=dev )[^\s]+')|grep -m1 -oP '(?<=inet )[^\s]+')
+  - export DEFAULT_IP=${DEFAULT_CIDR%%/*}
+  # Prefer IPv4 for destinations and restart networking
+  - "echo 'precedence ::ffff:0:0/96  100'|tee -a /etc/gai.conf"
+  # Restart networking for IPv4 stack preference takes effect
+  - systemctl restart systemd-networkd
+  # Source OS Release information
+  - . /etc/lsb-release
+  # Set vim as default EDITOR system-wide
+  - echo 'EDITOR=/usr/bin/vim.basic'|tee 1>/dev/null -a /etc/environment
+  # Set vim.basic as primary editor in list of alternatives
+  - if [ -f /usr/bin/vim.basic ];then update-alternatives --set editor /usr/bin/vim.basic;fi
+  # Set JAVA_HOME system-wide if installed
+  - if [ -n "$(which 2>/dev/null java)" ];then sed -r -i "\$aJAVA_HOME=\x22$(update-alternatives --list java|awk -F/ '{gsub(/\x2fbin.*/,"");print}')\x22" /etc/environment;fi
+  # Source the updated /etc/environment file
+  - . /etc/environment
+  # Allow non-root users to use/query fuse-based filesystems (mainly removes error when find searches a fuse filesystem)
+  - if $(test -f /etc/fuse.conf);then sed -i 's/^#user_allow/user_allow/g' /etc/fuse.conf;fi
+  # Configure ssh for X11 forwarding
+  - sed -r -i 's/^#?(AllowAgentForwarding|AllowTcpForwarding|X11Forwarding|PermitTTY|PasswordAuthentication|PubkeyAuthentication)[^$]*/\1 yes/g;s/^#?(X11UseLocalhost)[^$]*/\1 no/;s/^#(X11DisplayOffset)[^$]*/\1 100/;s/^#?(PermitRootLogin)[^$]*/\1 no/' /etc/ssh/sshd_config
+  - systemctl restart ssh
+  # Create SSH Keys for default user
+  - su - $(id -un 1000) -c 'if [ -d /home/$(id -un 1000)/.ssh ];then true;else mkdir -p /home/$(id -un 1000)/.ssh/;fi'
+  - if [ -d /home/$(id -un 1000)/.ssh ];then chown -R $(id -un 1000):$(id -gn 1000) /home/$(id -un 1000)/.ssh;fi
+  - su - $(id -un 1000) -c 'if [ -d /home/$(id -un 1000)/.ssh ];then ssh-keygen -t rsa -b 4096 -f /home/$(id -un 1000)/.ssh/id_rsa -P "";fi'
+  - su - $(id -un 1000) -c 'if [ -d /home/$(id -un 1000)/.ssh ];then ssh-keygen -t ecdsa -b 521 -f /home/$(id -un 1000)/.ssh/id_ecdsa -P "";fi'
+  - su - $(id -un 1000) -c 'if [ -d /home/$(id -un 1000)/.ssh ];then ssh-keygen -t dsa -b 1024 -f /home/$(id -un 1000)/.ssh/id_dsa -P "";fi'
+  - su - $(id -un 1000) -c 'if [ -d /home/$(id -un 1000)/.ssh ];then ssh-keygen -t ed25519 -f /home/$(id -un 1000)/.ssh/id_ed25519 -P "";fi'
+  - su - $(id -un 1000) -c 'if [ -d /home/$(id -un 1000)/.ssh ];then cat /home/$(id -un 1000)/.ssh/*.pub|tee 1>/dev/null -a /home/$(id -un 1000)/.ssh/authorized_keys;fi'
+  # Disable cloud-init from setting networking back to as deployed on reboots
+  - "printf 'network\x3a\x20{config\x3a\x20disabled}\n'|tee 1>/dev/null /etc/cloud/cloud.cfg.d/99-disable-network-config.cfg"
+  - systemctl restart procps.service
+  # Refresh Root CA Certs, especially if we added any
+  - update-ca-certificates --fresh --verbose
+  - pro attach XXXXXXXXX
+  - pro enable fips-updates --assume-yes
+  # If we have our IP, create a correctly formated hosts entry
+  - if [ -n "$(ip -o -4 a show dev $(ip -o route show default|grep -m1 -oP '(?<=dev )[^\s]+')|grep -m1 -oP '(?<=inet )[^/]+')" ];then sed -r -i "/127.0.1.1/d;/127.0.0.1/a $(ip -o -4 a show dev $(ip -o route show default|grep -m1 -oP '(?<=dev )[^\s]+')|grep -m1 -oP '(?<=inet )[^/]+') $(hostname -f) $(hostname -s)" /etc/hosts;fi
+  - set +x
+  - sh -c 'echo "\e[0;1;38;2;255;255;255m╔═══════════════════════════════════╗\e[0m\n\e[0;1;38;2;255;255;255m\e[0;1;38;2;255;255;255m║\e[0;1;48;2;0;60;0m    IP Address = '$DEFAULT_IP'   \e[0;1;38;2;255;255;255m║\n\e[0;1;38;2;255;255;255m╚═══════════════════════════════════╝\e[0m\n"';
+  - sh -c 'echo "\e[0;1;38;2;255;255;255m╔═══════════════════════╗\e[0m\n\e[0;1;38;2;255;255;255m║\e[0;1;38;2;255;255;255m\e[0;1;48;2;0;60;0m   Finished RUNCMDs    \e[0;1;38;2;255;255;255m║\e[0m\n\e[0;1;38;2;255;255;255m╚═══════════════════════╝\e[0m\n"';
+
